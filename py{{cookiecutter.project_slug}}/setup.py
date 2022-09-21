@@ -10,9 +10,19 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %} ]
+def parse_requirements(filename):
+    ''' Load requirements from a pip requirements file '''
+    with open(filename, 'r') as fd:
+        lines = []
+        for line in fd:
+            line.strip()
+            if line and not line.startswith("#"):
+                lines.append(line)
+    return lines
 
-test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %} ]
+requirements = parse_requirements('requirements.txt')
+
+test_requirements = ['pytest>=3', ]
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
