@@ -42,7 +42,7 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-venv: ## remove venv files
-	rm -fr venv
+	rm -fr .venv
 
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
@@ -51,10 +51,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 venv: ## Create virtual environment
-	rm -Rf venv
-	python3 -m venv venv --prompt {{cookiecutter.project_slug}}
-	/bin/bash -c "source venv/bin/activate && pip install pip --upgrade && pip install -r requirements_dev.txt && pip install -e ."
-	echo "Enter virtual environment using:\n\n\t$ source venv/bin/activate\n"
+	rm -Rf .venv
+	python3 -m venv .venv --prompt {{cookiecutter.project_slug}}
+	/bin/bash -c "source .venv/bin/activate && pip install pip --upgrade && pip install -r requirements_dev.txt && pip install -e ."
+	echo "Enter virtual environment using:\n\n\t$ source .venv/bin/activate\n"
 
 
 style: ## check style
@@ -90,3 +90,6 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
+
+dev: ## create a development library or cli from this package
+	python setup.py develop
