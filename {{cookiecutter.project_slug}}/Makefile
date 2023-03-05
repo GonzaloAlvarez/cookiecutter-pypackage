@@ -26,7 +26,7 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-venv clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-venv clean-test clean-docs ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -50,6 +50,9 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+clean-docs: ## clean documentation generated
+	rm -fr docsbuild
+
 venv: ## Create virtual environment
 	rm -Rf .venv
 	python3 -m venv .venv --prompt {{cookiecutter.project_slug}}
@@ -72,16 +75,12 @@ coverage: ## check code coverage quickly with the default Python
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/{{ cookiecutter.project_slug }}.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ {{ cookiecutter.project_slug }}
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
+docs: clean-docs ## generate mkdocs documentation
+	mkdocs build -d docsbuild
+	$(BROWSER) docsbuild/index.html
 
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+docs-serve: ## compile the docs watching for changes
+	mkdocs serve
 
 dist: clean ## builds source and wheel package
 	python setup.py sdist
