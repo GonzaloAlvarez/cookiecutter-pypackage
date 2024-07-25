@@ -11,7 +11,7 @@ import click
 from loguru import logger
 from click_loguru import ClickLoguru
 
-__program__ = '{{cookiecutter.project_slug}}'
+__program__ = '{{cookiecutter.__project_slug_short}}'
 __version__ = '0.0.1'
 
 click_loguru = ClickLoguru(__program__, __version__)
@@ -34,7 +34,7 @@ def cli(ctx, **kwargs):
 def main(ctx):
     """Console script for {{cookiecutter.project_slug}}."""
     click.echo("Replace this message by putting your code into "
-               "{{cookiecutter.project_slug}}.cli.main")
+               "{{cookiecutter.__project_slug_short}}.cli.main")
     click.echo("See click documentation at https://click.palletsprojects.com/")
     return 0
 {%- endif %}
@@ -48,7 +48,7 @@ def cli(args=None):
 
     print("Arguments: " + str(args._))
     print("Replace this message by putting your code into "
-          "{{cookiecutter.project_slug}}.cli.main")
+          "{{cookiecutter.__project_slug_short}}.cli.main")
     return 0
 {%- endif %}
 

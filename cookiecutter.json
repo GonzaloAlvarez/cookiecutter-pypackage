@@ -4,6 +4,7 @@
   "github_username": "GonzaloAlvarez",
   "project_name": "Python Boilerplate",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "__project_slug_short": "{{ cookiecutter.project_slug|lower|replace('py', '') }}",
   "project_short_description": "Python Boilerplate contains all the boilerplate you need to create a Python package.",
   "version": "0.1.0",
   "command_line_interface": ["Click", "Argparse", "No command-line interface"],

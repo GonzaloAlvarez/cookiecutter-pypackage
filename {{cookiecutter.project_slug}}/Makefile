@@ -53,12 +53,26 @@ clean-test: ## remove test and coverage artifacts
 clean-docs: ## clean documentation generated
 	rm -fr docsbuild
 
+clean-wheelhouse: ## remove all wheelhouse
+	rm -fr wheelhouse
+
 venv: ## Create virtual environment
 	rm -Rf .venv
 	python3 -m venv .venv --prompt {{cookiecutter.project_slug}}
 	/bin/bash -c "source .venv/bin/activate && pip install pip --upgrade && pip install -r requirements_dev.txt && pip install -e ."
 	echo "Enter virtual environment using:\n\n\t$ source .venv/bin/activate\n"
 
+venv-offline: ## Create virtual environment while offline
+	rm -Rf .venv
+	python3 -m venv .venv --prompt pyfletinventory
+	/bin/bash -c "source .venv/bin/activate && pip install pip --upgrade --no-index --find-links wheelhouse && pip install -r requirements_dev.txt --no-index --find-links wheelhouse && pip install -e . --no-index --find-links wheelhouse"
+	echo "Enter virtual environment using:\n\n\t$ source .venv/bin/activate\n"
+
+wheelhouse: ## Gather wheels from internet for offline usage
+	rm -Rf wheelhouse
+	mkdir wheelhouse
+	python -m pip download -r requirements.txt -d wheelhouse
+	python -m pip download -r requirements_dev.txt -d wheelhouse
 
 style: ## check style
 	flake8 --max-line-length=120 --ignore=E128 {{ cookiecutter.project_slug }} tests
