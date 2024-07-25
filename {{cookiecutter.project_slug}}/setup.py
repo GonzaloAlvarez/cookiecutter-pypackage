@@ -52,7 +52,7 @@ setup(
     {%- if 'no' not in cookiecutter.command_line_interface|lower %}
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.project_slug }}={{ cookiecutter.__project_slug_short }}.cli:main',
+            '{{ cookiecutter.project_slug }}={{ cookiecutter.__project_slug_short }}.cli:cli',
         ],
     },
     {%- endif %}

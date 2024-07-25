@@ -7,5 +7,5 @@ __metaclass__ = type
 
 
 {%- if cookiecutter.use_loguru == 'y' %}
-import loguru
+from loguru import logger
 {%- endif %}
